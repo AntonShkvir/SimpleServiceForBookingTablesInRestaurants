@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ restaurant.name }} Details</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        body {
+            background: #1abc9c;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #16a085;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        label {
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background: #16a085;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background: #12876f;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px; /* Ограничение высоты для скролла */
+            overflow-y: auto; /* Включение вертикального скролла при превышении высоты */
+            text-align: center;
+        }
+
+        li {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        span {
+            color: #777;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            background: #16a085;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        a:hover {
+            background: #12876f;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ restaurant.name }} Details</h1>
+
+    <div>
+        <h2>{{ restaurant.name }}</h2>
+        <p>{{ restaurant.address }}</p>
+        <h3>{{ restaurant.description }}</h3>
+
+        <form action="{{ url_for('views.select_time', restaurant_id=restaurant.restaurant_id) }}" method="get">
+            <label for="table">Select a Table:</label>
+            <select id="table" name="table">
+                {% for table in restaurant.tables %}
+                    {% if not table.is_booked %}
+                        <option value="{{ table.table_id }}">Table {{ table.table_number }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <input type="submit" value="Continue to Time Selection">
+        </form>
+
+        <h2>Comments</h2>
+        <ul>
+            {% for comment in restaurant.comments %}
+                <li>
+                    <h3>{{ comment.user.username }}</h3>
+                    <p>{{ comment.comment_text }}</p>
+                    <span>Rating: {{ comment.rating }}/5</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <form action="{{ url_for('views.add_comment', restaurant_id=restaurant.restaurant_id) }}" method="post">
+            <label for="comment_text">Add a Comment:</label>
+            <textarea id="comment_text" name="comment_text" rows="4" required></textarea>
+
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <input type="submit" value="Add Comment">
+        </form>
+    </div>
+</body>
+</html>

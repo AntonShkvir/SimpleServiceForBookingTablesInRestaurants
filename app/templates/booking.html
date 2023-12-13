@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants Booking</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        body {
+            background: #1abc9c;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px; /* Ограничение высоты для скролла */
+            overflow-y: auto; /* Включение вертикального скролла при превышении высоты */
+            text-align: center;
+        }
+
+        li {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+        }
+
+        h2 {
+            color: #16a085;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            background: #16a085;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        a:hover {
+            background: #12876f;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Choose a Place for Booking</h1>
+
+<ul>
+    {% for restaurant in restaurants %}
+        <li>
+            <h2>{{ restaurant.name }}</h2>
+            <p>{{ restaurant.address }}</p>
+            <h3>{{ restaurant.description }}</h3>
+            <a href="{{ url_for('views.view_restaurant', restaurant_id=restaurant.restaurant_id) }}">Book a Table</a>
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

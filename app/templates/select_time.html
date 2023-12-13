@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Reservation Time</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        body {
+            background: #1abc9c;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        div {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #16a085;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input {
+            width: calc(100% - 20px); /* Учтем внутренние отступы в 10px по бокам */
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin: 0 0 15px 0;
+            box-sizing: border-box; /* Учтем внутренние отступы в расчете ширины */
+        }
+
+        input[type="submit"] {
+            background: #16a085;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background: #12876f;
+        }
+    </style>
+</head>
+<body>
+
+
+<h1>Choose Reservation Time</h1>
+
+<div>
+    <h2>{{ restaurant.name }}</h2>
+    <p>Selected Table: Table {{ selected_table_number }}</p>
+
+    <form action="{{ url_for('views.confirm_booking', restaurant_id=restaurant_id, table_id=selected_table_id) }}" method="post">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="time">Select Time:</label>
+        <input type="time" id="time" name="time" required>
+
+        <input type="submit" value="Book Table">
+    </form>
+</div>
+
+</body>
+</html>

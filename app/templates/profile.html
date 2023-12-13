@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        body {
+            background: #1abc9c;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        div {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #16a085;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px; /* Ограничение высоты для скролла */
+            overflow-y: auto; /* Включение вертикального скролла при превышении высоты */
+            text-align: center;
+        }
+
+        li {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 250px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            background: #16a085;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #12876f;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<h1>User Profile</h1>
+
+<div>
+    <p><strong>Name:</strong> {{ current_user.username }}</p>
+    <p><strong>Email:</strong> {{ current_user.email }}</p>
+    <p><strong>Password:</strong> *********</p>
+
+    <h2>Reserved Tables</h2>
+    {% if current_user.reservations %}
+        <ul>
+            {% for reservation in current_user.reservations %}
+                <li>
+                    <strong>Restaurant:</strong> {{ reservation.table.restaurant.name }}<br>
+                    <strong>Table Number:</strong> {{ reservation.table.table_number }}<br>
+                    <strong>Reservation Time:</strong> {{ reservation.reservation_time.strftime('%Y-%m-%d %H:%M') }}<br>
+                    <form action="{{ url_for('views.cancel_reservation', reservation_id=reservation.reservation_id) }}" method="post">
+                        <button type="submit">Cancel Reservation</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reservations yet.</p>
+    {% endif %}
+
+    <form action="{{ url_for('views.logout') }}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+</body>
+</html>

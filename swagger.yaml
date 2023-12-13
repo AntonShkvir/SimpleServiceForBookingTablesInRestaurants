@@ -1,0 +1,244 @@
+swagger: '2.0'
+info:
+  title: 'Your Flask API'
+  description: 'API documentation for Your Flask API'
+  version: '1.0'
+paths:
+  /login:
+    get:
+      summary: 'Get login page'
+      description: 'Endpoint to retrieve the login page'
+      responses:
+        200:
+          description: 'Login page retrieved successfully'
+    post:
+      summary: 'User login'
+      description: 'Endpoint to log in a user'
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: email
+          in: formData
+          type: string
+          required: true
+          description: 'User email'
+        - name: password
+          in: formData
+          type: string
+          required: true
+          description: 'User password'
+      responses:
+        200:
+          description: 'Successful login'
+        400:
+          description: 'Invalid login'
+
+  /profile:
+    get:
+      summary: 'Get user profile'
+      description: 'Endpoint to get user profile'
+      security:
+        - apiKey: []
+
+  /add_comment/{restaurant_id}:
+    post:
+      summary: 'Add a comment to a restaurant'
+      description: 'Endpoint to add a comment to a restaurant'
+      parameters:
+        - name: restaurant_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the restaurant'
+        - name: comment_text
+          in: formData
+          type: string
+          required: true
+          description: 'Text of the comment'
+        - name: rating
+          in: formData
+          type: integer
+          required: true
+          description: 'Rating of the comment (integer)'
+      security:
+        - apiKey: []
+      responses:
+        200:
+          description: 'Comment added successfully'
+        400:
+          description: 'Bad request'
+
+  /cancel_reservation/{reservation_id}:
+    post:
+      summary: 'Cancel a reservation'
+      description: 'Endpoint to cancel a reservation'
+      parameters:
+        - name: reservation_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the reservation to cancel'
+      security:
+        - apiKey: []
+      responses:
+        200:
+          description: 'Reservation canceled successfully'
+        400:
+          description: 'Bad request'
+
+  /restaurant/{restaurant_id}:
+    get:
+      summary: 'View restaurant details'
+      description: 'Endpoint to view details of a restaurant'
+      parameters:
+        - name: restaurant_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the restaurant'
+      security:
+        - apiKey: []
+
+  /logout:
+    post:
+      summary: 'Logout user'
+      description: 'Endpoint to log out a user'
+      security:
+        - apiKey: []
+
+  /booking:
+    get:
+      summary: 'View available restaurants for booking'
+      description: 'Endpoint to view available restaurants for booking'
+      security:
+        - apiKey: []
+
+  /main:
+    get:
+      summary: 'Main page'
+      description: 'Endpoint for the main page'
+      security:
+        - apiKey: []
+
+  /signup:
+    post:
+      summary: 'Sign up a new user'
+      description: 'Endpoint to sign up a new user'
+      parameters:
+        - name: username
+          in: formData
+          type: string
+          required: true
+          description: 'Username of the new user'
+        - name: email
+          in: formData
+          type: string
+          required: true
+          description: 'Email of the new user'
+        - name: password
+          in: formData
+          type: string
+          required: true
+          description: 'Password of the new user'
+      responses:
+        200:
+          description: 'User signed up successfully'
+        400:
+          description: 'Bad request'
+
+  /booking/{restaurant_id}/{table_id}:
+    get:
+      summary: 'View available times for booking a table'
+      description: 'Endpoint to view available times for booking a table'
+      parameters:
+        - name: restaurant_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the restaurant'
+        - name: table_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the table'
+      security:
+        - apiKey: []
+    post:
+      summary: 'Book a table'
+      description: 'Endpoint to book a table'
+      parameters:
+        - name: restaurant_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the restaurant'
+        - name: table_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the table'
+        - name: date
+          in: formData
+          type: string
+          format: date
+          required: true
+          description: 'Date for the reservation (YYYY-MM-DD)'
+      security:
+        - apiKey: []
+      responses:
+        200:
+          description: 'Table booked successfully'
+        400:
+          description: 'Bad request'
+
+  /select_time/{restaurant_id}:
+    get:
+      summary: 'Select time for booking'
+      description: 'Endpoint to select time for booking a table'
+      parameters:
+        - name: restaurant_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the restaurant'
+        - name: table
+          in: query
+          type: integer
+          required: true
+          description: 'ID of the table'
+      security:
+        - apiKey: []
+      responses:
+        200:
+          description: 'Time selected successfully'
+        400:
+          description: 'Bad request'
+
+  /confirm_booking/{restaurant_id}/{table_id}:
+    post:
+      summary: 'Confirm table booking'
+      description: 'Endpoint to confirm table booking'
+      parameters:
+        - name: restaurant_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the restaurant'
+        - name: table_id
+          in: path
+          type: integer
+          required: true
+          description: 'ID of the table'
+        - name: date
+          in: formData
+          type: string
+          format: date-time
+          required: true
+          description: 'Date and time for the reservation (YYYY-MM-DD HH:MM)'
+      security:
+        - apiKey: []
+      responses:
+        200:
+          description: 'Table booking confirmed successfully'
+        400:
+          description: 'Bad request'
